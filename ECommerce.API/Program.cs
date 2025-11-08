@@ -1,12 +1,15 @@
+using ECommerce.Application.Interfaces.Repositories;
 using ECommerce.Application.Interfaces.Services;
 using ECommerce.Infrastructure;
 using ECommerce.Infrastructure.Persistence;
 using ECommerce.Infrastructure.Repositories;
+using ECommerce.Infrastructure.Repositories.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using ECommerce.Infrastructure.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -20,8 +23,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddInfrastructure();
 builder.Services.AddScoped<IAuthService,AuthService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService,CategoryService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(Program));
 
 // ----- Add Identity -----
 builder.Services.AddIdentity<ECommerce.Domain.Entities.User, IdentityRole>(options =>
@@ -95,6 +101,8 @@ app.UseHttpsRedirection();
 
 
 app.UseCors("AllowAll");
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
