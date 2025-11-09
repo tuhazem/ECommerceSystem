@@ -1,6 +1,8 @@
+using AutoMapper;
 using ECommerce.Application.Interfaces.Repositories;
 using ECommerce.Application.Interfaces.Services;
 using ECommerce.Infrastructure;
+using ECommerce.Infrastructure.Middlewares;
 using ECommerce.Infrastructure.Persistence;
 using ECommerce.Infrastructure.Repositories;
 using ECommerce.Infrastructure.Repositories.Services;
@@ -9,7 +11,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using ECommerce.Infrastructure.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -25,6 +26,17 @@ builder.Services.AddInfrastructure();
 builder.Services.AddScoped<IAuthService,AuthService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService,CategoryService>();
+//builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+builder.Services.AddScoped<IProductService>(sp =>
+{
+    var repo = sp.GetRequiredService<IProductRepository>();
+    var mapper = sp.GetRequiredService<IMapper>();
+    var env = sp.GetRequiredService<IWebHostEnvironment>();
+
+    return new ProductService(repo, mapper, env.WebRootPath);
+});
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(Program));
@@ -103,6 +115,8 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
+
+app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();
