@@ -9,6 +9,8 @@ namespace ECommerce.Application.Interfaces.Services
 {
     public interface IProductService
     {
+
+        Task<PagedResult<ProductDTO>> GetFilteredAsync(string? search, int? categoryId, int pageNumber, int pageSize);
         Task<IEnumerable<ProductDTO>> GetAllAsync();
         Task<ProductDTO> GetByIdAsync(int id);
         Task<ProductDTO> AddAsync(CreateProductDTO dto);

@@ -9,6 +9,8 @@ namespace ECommerce.Application.Interfaces.Repositories
 {
     public interface IProductRepository
     {
+        Task<(IEnumerable<Product> Products, int TotalCount)> GetFilteredAsync(string? search, int? categoryId, int pageNumber, int pageSize);
+
         Task<IEnumerable<Product>> GetAllAsync();
         Task<Product?> GetByIdAsync(int id);
         Task<Product?> AddAsync(Product product);

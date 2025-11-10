@@ -112,5 +112,20 @@ namespace ECommerce.Infrastructure.Repositories.Services
             await repository.UpdateAsync(product);
             return mapper.Map<ProductDTO>(product);
         }
+
+        public async Task<PagedResult<ProductDTO>> GetFilteredAsync(string? search, int? categoryId, int pageNumber, int pageSize)
+        {
+            var (products, totalCount) = await repository.GetFilteredAsync(search, categoryId, pageNumber, pageSize);
+
+            return new PagedResult<ProductDTO>
+            {
+                Items = mapper.Map<IEnumerable<ProductDTO>>(products),
+                TotalCount = totalCount,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+        }
+
+
     }
 }

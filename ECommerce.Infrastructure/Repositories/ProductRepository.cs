@@ -47,6 +47,26 @@ namespace ECommerce.Infrastructure.Repositories
                 .FirstOrDefaultAsync(a=> a.Id == id) ?? throw new KeyNotFoundException("Product No Found") ;
         }
 
+        public async Task<(IEnumerable<Product> Products, int TotalCount)> GetFilteredAsync(string? search, int? categoryId, int pageNumber, int pageSize)
+        {
+            var qury = dbcontext.Products.Include(c => c.Category)
+                .AsQueryable();
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                qury = qury.Where(a => a.Name.Contains(search));
+            }
+            if (categoryId.HasValue)
+                qury = qury.Where(a => a.CategoryId == categoryId.Value);
+
+            var totalcount = await qury.CountAsync();
+            var product = await qury.Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (product, totalcount);
+
+        }
+
         public async Task<Product> UpdateAsync(Product product)
         {
             dbcontext.Products.Update(product);

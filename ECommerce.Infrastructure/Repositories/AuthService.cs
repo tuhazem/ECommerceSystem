@@ -68,7 +68,7 @@ namespace ECommerce.Infrastructure.Repositories
             var roles = await userManager.GetRolesAsync(user);
             var claims = new List<Claim> { 
             
-                new Claim(ClaimTypes.NameIdentifier , user.Id),
+                new Claim(ClaimTypes.NameIdentifier , user.Id.ToString()),
                 new Claim(ClaimTypes.Email , user.Email ?? ""),
                 new Claim(ClaimTypes.Name , user.FullName)
 
@@ -91,6 +91,7 @@ namespace ECommerce.Infrastructure.Repositories
 
             return new UserDTO
             {
+
                 Name = user.FullName,
                 Email = user.Email ?? "",
                 Role = user.Role,

@@ -51,5 +51,12 @@ namespace ECommerce.API.Controllers
             return NoContent();
         }
 
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetFiltered([FromQuery] string? search, [FromQuery] int? categoryId, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var result = await service.GetFilteredAsync(search, categoryId, pageNumber, pageSize);
+            return Ok(result);
+        }
+
     }
 }
