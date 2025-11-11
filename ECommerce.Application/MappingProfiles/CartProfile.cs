@@ -19,9 +19,6 @@ namespace ECommerce.Application.MappingProfiles
 
             CreateMap<Cart, CartDTO>()
                 .ForMember(d => d.Items, o => o.MapFrom(s => s.Items));
-
-
-
         }
     }
 }

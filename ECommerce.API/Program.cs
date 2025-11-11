@@ -41,6 +41,8 @@ builder.Services.AddScoped<IProductService>(sp =>
 
 builder.Services.AddScoped<ICartService,CartService>();
 builder.Services.AddScoped<ICartRepository,CartRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();    
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(Program));

@@ -23,6 +23,7 @@ namespace ECommerce.Infrastructure.Repositories
         public async Task<Cart> CreateAsync(Cart cart)
         {
             dbcontext.Carts.Add(cart);
+            //cart.Id = 0;
             await dbcontext.SaveChangesAsync();
             return cart;
         }
