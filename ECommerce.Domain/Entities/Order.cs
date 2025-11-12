@@ -14,8 +14,18 @@ namespace ECommerce.Domain.Entities
         public string UserId { get; set; } = string.Empty;
         public User? User { get; set; }
         public decimal TotalAmount { get; set; }
-        public string Status { get; set; } = "Pending";
+        public string Status { get; set; } = OrderStatus.Pending.ToString();
 
         public ICollection<OrderItem> Items { get; set; } = new List<OrderItem>();
     }
+
+    public enum OrderStatus
+    {
+        Pending,
+        Processing,
+        Shipped,
+        Delivered,
+        Cancelled
+    }
+
 }

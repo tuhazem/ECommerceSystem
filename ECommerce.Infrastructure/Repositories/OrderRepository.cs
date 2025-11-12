@@ -40,5 +40,17 @@ namespace ECommerce.Infrastructure.Repositories
                 .Include(o => o.Items).ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(o => o.Id == Id && o.UserId == UserId);
         }
+
+
+        public async Task UpdateStatusAsync(int orderId, string newStatus)
+        {
+            var order = await dbcontext.Orders.FindAsync(orderId);
+            if (order == null)
+                throw new KeyNotFoundException("Order not found");
+
+            order.Status = newStatus;
+            await dbcontext.SaveChangesAsync();
+        }
+
     }
 }

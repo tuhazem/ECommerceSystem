@@ -12,5 +12,6 @@ namespace ECommerce.Application.Interfaces.Services
         Task<OrderDTO> PlaceOrderAsync(string UserId);
         Task<IEnumerable<OrderDTO>> GetUserOrderAsync(string UserId);
         Task<OrderDTO> GetOrderByIdAsync(string UserId , int Id);
+        Task UpdateStatusAsync(int orderId, string status);
     }
 }

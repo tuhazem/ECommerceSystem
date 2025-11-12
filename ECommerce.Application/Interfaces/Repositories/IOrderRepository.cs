@@ -12,5 +12,7 @@ namespace ECommerce.Application.Interfaces.Repositories
         Task<Order> AddAsync(Order order);
         Task<IEnumerable<Order>> GetAllByUserAsync(string UserId);
         Task<Order?> GetByIdAsync(int Id , string UserId);
+
+        Task UpdateStatusAsync(int orderId, string newStatus);
     }
 }

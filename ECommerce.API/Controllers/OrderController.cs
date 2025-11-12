@@ -46,5 +46,13 @@ namespace ECommerce.API.Controllers
             return Ok(order);
         }
 
+        //[Authorize(Roles = "Admin")]
+        [HttpPut("{orderId:int}/status")]
+        public async Task<IActionResult> UpdateOrderStatus(int orderId, [FromBody] string status) { 
+        
+            await service.UpdateStatusAsync(orderId, status);
+            return Ok(new { Message = "Order status updated successfully" });
+
+        }
     }
 }

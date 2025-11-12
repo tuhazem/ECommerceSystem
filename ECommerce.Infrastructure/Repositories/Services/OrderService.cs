@@ -63,5 +63,17 @@ namespace ECommerce.Infrastructure.Repositories.Services
            await cartrepo.DeleteAsync(cart);
             return mapper.Map<OrderDTO>(oreder);
         }
+
+        public async Task UpdateStatusAsync(int orderId, string status) {
+        
+            var order = await orderrepo.GetByIdAsync(orderId,"");
+            if (order == null)
+                throw new KeyNotFoundException("Order not found");
+            order.Status = status;
+            await orderrepo.UpdateStatusAsync(orderId, status);
+
+
+        }
+
     }
 }
