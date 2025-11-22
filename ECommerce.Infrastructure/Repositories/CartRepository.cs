@@ -52,5 +52,15 @@ namespace ECommerce.Infrastructure.Repositories
             await dbcontext.SaveChangesAsync();
             return cart;
         }
+
+        public async Task ClearCartAsync(string userId)
+        {
+            var cart = await dbcontext.Carts.Include(c => c.Items)
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+            if (cart == null) return;
+            dbcontext.CartItems.RemoveRange(cart.Items);
+            await dbcontext.SaveChangesAsync();
+        }
+
     }
 }

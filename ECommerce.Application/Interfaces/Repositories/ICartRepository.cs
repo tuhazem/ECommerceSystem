@@ -14,5 +14,6 @@ namespace ECommerce.Application.Interfaces.Repositories
         Task<Cart> CreateAsync(Cart cart);
         Task<Cart> UpdateAsync(Cart cart);
         Task DeleteAsync(Cart cart);
+        Task ClearCartAsync(string userId);
     }
 }

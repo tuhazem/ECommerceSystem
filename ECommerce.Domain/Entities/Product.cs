@@ -18,5 +18,6 @@ namespace ECommerce.Domain.Entities
         public Category? Category { get; set; }
 
         public string? PhotoUrl { get; set; }
+        public int Stock { get; set; } = 0;
     }
 }

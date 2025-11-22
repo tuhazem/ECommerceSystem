@@ -26,6 +26,7 @@ namespace ECommerce.Infrastructure.Repositories
             return product;
         }
 
+
         public async Task DeleteAsync(int id)
         {
             var product = await dbcontext.Products.FindAsync(id);
